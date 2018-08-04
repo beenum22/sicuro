@@ -1,6 +1,7 @@
-#!/Users/muneebahmad/anaconda/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Beenum'
+__version__ = '3.0'
 
 import argparse
 from Crypto import Random
@@ -43,7 +44,7 @@ class runTest(object):
         workDir = os.path.dirname(os.path.realpath(__file__))
         bL = 32
         parser = argparse.ArgumentParser(
-            description='Main Code.', version="2.1")
+            description='Main Code.', version=__version__)
         parser.add_argument(
             "task",
             help="Select Encryption/Decryption.",
@@ -98,12 +99,17 @@ class runTest(object):
             for i in dMsg:
                 c += 1
                 print "Decrypted Message(%s): %s" % (c, i)
-            os.remove('target.txt')
-            os.remove('key.txt')
+            if os.path.exists("target.txt") is True:
+                os.remove('target.txt')
+            if os.path.exists("key.txt") is True:
+                os.remove('key.txt')
             if args.save is True:
                 t = open('target.txt', 'w')
                 for i in dMsg:
-                    t.write(i + '\n')
+                    if i == dMsg[-1]:
+                        t.write(i)
+                    else:
+	                    t.write(i + '\n')
                 t.close() 
 
 if __name__ == "__main__":
