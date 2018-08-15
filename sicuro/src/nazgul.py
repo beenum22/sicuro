@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Crypto(object):
+class Nazgul(object):
     def __init__(self, key, msg, bL=32):
         self.key = key
         self.msg = msg

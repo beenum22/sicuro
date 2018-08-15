@@ -1,4 +1,4 @@
-from crypto import Crypto
+from nazgul import Nazgul
 import os
 import base64
 import logging
@@ -8,29 +8,38 @@ logger = logging.getLogger(__name__)
 
 class Maestro(object):
 
-    def __init__(self, bL):
+    def __init__(self, bL, output_dir='output/'):
         self.bL = bL
+        self.output_dir = output_dir
+        self.master_key = None
+        self.master_dic = {}
 
     def encrypt_maestro(self, data_path=None):
+        output_file = 'target.txt'
+        key_file = 'key.txt'
         try:
             if data_path:
                 assert os.path.exists(data_path), "Input data file does not exist"
                 data = self._read_file(data_path)
+                output_file = os.path.basename(data_path)
             else:
                 data = raw_input("Enter the message you want to encrypt: ")
             assert data != None, "No data source provided"
             key, encrypted_data = self._encrypt_data(data)
-            self._create_file(encrypted_data, 'output/target')
-            self._create_file(key, 'output/key')
-            self._display_output(key=key, data=encrypted_data)
+            self._create_file(encrypted_data, os.path.join(self.output_dir, output_file))
+            self._create_file(key, os.path.join(self.output_dir, key_file))
+            return key, encrypted_data
+            #self._display_output(key=key, data=encrypted_data)
         except AssertionError as e:
             raise
 
     def decrypt_maestro(self, data_path=None, key_path=None, store=False):
+        output_file = 'target.txt'
         try:
             if data_path:
                 assert os.path.exists(data_path), "Input data file does not exist"
                 data = self._read_file(data_path)
+                output_file = os.path.basename(data_path)
             else:
                 data = raw_input("Enter the message you want to encrypt: ")
             if key_path:
@@ -43,10 +52,20 @@ class Maestro(object):
             data = self._decrypt_data(key, data)
             self._remove_files(data_path, key_path)
             if store is True:
-                self._create_file(data, 'output/target')
-            self._display_output(data=data)
+                self._create_file(data, os.path.join(self.output_dir, output_file))
+            #self._display_output(data=data)
+            return data
         except AssertionError as e:
             raise
+
+    def _gen_master_key(self):
+        return os.urandom(self.bL)
+
+    def _encrypt_keys(self):
+        pass
+
+    def _store_keys(self):
+        pass
 
     def _read_file(self, file):
         try:
@@ -59,14 +78,14 @@ class Maestro(object):
     def _encrypt_data(self, data):
         key = os.urandom(self.bL)
         #print "Encryption key: %s" % base64.b64encode(key)
-        a = Crypto(key, data, self.bL)
+        a = Nazgul(key, data, self.bL)
         encrypted_data = a.encrypt()
         #print "Encrypted Message: %s" % (sec_txt)
         return base64.b64encode(key), encrypted_data
 
     def _decrypt_data(self, key, data):
         #print "Encryption key given is: %s" % key
-        a = Crypto(base64.b64decode(key), base64.b64decode(data))
+        a = Nazgul(base64.b64decode(key), base64.b64decode(data))
         decrypted_data = a.decrypt()
         count = 0
         decrypted_data = decrypted_data.split('\n')
@@ -96,7 +115,7 @@ class Maestro(object):
         except:
             raise
 
-    def _display_output(self, key=None, data=None):
+    def display_output(self, key=None, data=None):
         if key:
             print "-----------------------------------"
             print "                Key                "

@@ -50,9 +50,11 @@ def main():
             maestro_logger.setLevel('DEBUG')
         maestro = Maestro(32)
         if args.task == 'E':
-            maestro.encrypt_maestro(data_path=args.target)
+            key, e_data = maestro.encrypt_maestro(data_path=args.target)
+            maestro.display_output(key=key, data=e_data)
         elif args.task == 'D':
-            maestro.decrypt_maestro(data_path=args.target, key_path=args.key, store=args.save)
+            d_data = maestro.decrypt_maestro(data_path=args.target, key_path=args.key, store=args.save)
+            maestro.display_output(data=d_data)
     except KeyboardInterrupt:
         maestro_logger.error("Interrupted. Exiting...")
         sys.exit()
