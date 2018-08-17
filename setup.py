@@ -14,9 +14,9 @@ setup(name='sicuro',
 	entry_points = {
 		'console_scripts': ['sicuro=sicuro.main:main']
 	},
-	packages=['sicuro'],
+	packages=setuptools.find_packages(),
 	install_requires=[
-		'Crypto', 'ipaddress'
+		'pycrypto', 'ipaddress'
 		],
 	zip_safe=False)
 
