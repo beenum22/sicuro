@@ -16,7 +16,7 @@ setup(name='sicuro',
 	},
 	packages=setuptools.find_packages(),
 	install_requires=[
-		'pycrypto', 'ipaddress'
+		'pycrypto', 'ipaddress', 'zizou'
 		],
 	zip_safe=False)
 

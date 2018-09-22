@@ -7,7 +7,7 @@ import argparse
 import os
 import sys
 from src.maestro import Maestro
-from src.utilities import Utilities
+from zizou import Zizou
 import logging.config
 
 
@@ -41,14 +41,19 @@ def main():
             "-k", "--key", default=None,
             help="Key file source path."
             )
+        parser.add_argument(
+            "-o", "--output_dir", default="~/sicuro_data/",
+            help="Output directory for encrypted/decrypted files"
+            )
         args = parser.parse_args()
-        Utilities._create_dir("./logs")
+        format = "%(asctime)s %(name)s - %(levelname)s - %(message)s"
+        logging.basicConfig(format=format)
         logging.config.fileConfig(
             'logging.ini', disable_existing_loggers=False)
         maestro_logger = logging.getLogger()
         if args.debug:
-            maestro_logger.setLevel('DEBUG')
-        maestro = Maestro(32)
+            logging.basicConfig(format=format)
+        maestro = Maestro(32, output_dir=args.output_dir)
         if args.task == 'E':
             key, e_data = maestro.encrypt_maestro(data_path=args.target)
             maestro.display_output(key=key, data=e_data)

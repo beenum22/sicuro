@@ -2,17 +2,19 @@ from nazgul import Nazgul
 import os
 import base64
 import logging
+from zizou import Zizou
 
 logger = logging.getLogger(__name__)
 
 
 class Maestro(object):
 
-    def __init__(self, bL, output_dir='output/'):
+    def __init__(self, bL, output_dir='~/sicuro_data/'):
         self.bL = bL
         self.output_dir = output_dir
         self.master_key = None
         self.master_dic = {}
+        Zizou._create_dir(self.output_dir)
 
     def encrypt_maestro(self, data_path=None):
         output_file = 'target.txt'
