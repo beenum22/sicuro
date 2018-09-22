@@ -12,6 +12,9 @@ import logging.config
 
 
 def main():
+    formatter = "%(asctime)s %(name)s - %(levelname)s - %(message)s"
+    maestro_logger = logging.getLogger()
+    logging.basicConfig(format=formatter)
     try:
         usage = ('python %prog <add variables here>')
         #workDir = os.path.dirname(os.path.realpath(__file__))
@@ -46,13 +49,11 @@ def main():
             help="Output directory for encrypted/decrypted files"
             )
         args = parser.parse_args()
-        format = "%(asctime)s %(name)s - %(levelname)s - %(message)s"
-        logging.basicConfig(format=format)
-        logging.config.fileConfig(
-            'logging.ini', disable_existing_loggers=False)
-        maestro_logger = logging.getLogger()
         if args.debug:
-            logging.basicConfig(format=format)
+            maestro_logger.setLevel(logging.DEBUG)
+            maestro_logger.info("Sicuro log level set to debug")
+        else:
+            maestro_logger.setLevel(logging.INFO)
         maestro = Maestro(32, output_dir=args.output_dir)
         if args.task == 'E':
             key, e_data = maestro.encrypt_maestro(data_path=args.target)

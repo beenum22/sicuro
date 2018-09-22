@@ -1,1 +1,3 @@
+pycrypto
+ipaddress
 git+git://github.com/beenum22/zizou.git#egg=zizou

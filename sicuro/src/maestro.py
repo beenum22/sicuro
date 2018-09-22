@@ -21,6 +21,7 @@ class Maestro(object):
         key_file = 'key.txt'
         try:
             if data_path:
+                data_path = Zizou.get_abs_path(data_path)
                 assert os.path.exists(data_path), "Input data file does not exist"
                 data = self._read_file(data_path)
                 output_file = os.path.basename(data_path)
@@ -98,7 +99,8 @@ class Maestro(object):
 
     def _create_file(self, data, file_path):
         try:
-            with open(file_path, 'w') as t:
+            abs_path = Zizou.get_abs_path(file_path)
+            with open(abs_path, 'w') as t:
                 if type(data) != list:
                     data = data.split('\n')
                 for line in data:
@@ -112,8 +114,9 @@ class Maestro(object):
     def _remove_files(self, *args):
         try:
             for file in args:
-                if os.path.exists(file):
-                    os.remove(file)
+                abs_path = abs_path = Zizou.get_abs_path(file)
+                if os.path.exists(abs_path):
+                    os.remove(abs_path)
         except:
             raise
 
