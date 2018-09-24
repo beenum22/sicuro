@@ -56,10 +56,10 @@ def main():
             maestro_logger.setLevel(logging.INFO)
         maestro = Maestro(32, output_dir=args.output_dir)
         if args.task == 'E':
-            key, e_data = maestro.encrypt_maestro(data_path=args.target)
+            key, e_data = maestro.encrypt_maestro(data_path=args.target, key=args.key)
             maestro.display_output(key=key, data=e_data)
         elif args.task == 'D':
-            d_data = maestro.decrypt_maestro(data_path=args.target, key_path=args.key, store=args.save)
+            d_data = maestro.decrypt_maestro(data_path=args.target, key=args.key, store=args.save)
             maestro.display_output(data=d_data)
     except KeyboardInterrupt:
         maestro_logger.error("Interrupted. Exiting...")
