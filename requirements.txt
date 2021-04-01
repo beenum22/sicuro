@@ -1,3 +1,6 @@
-pycrypto
+PyCryptodome
 ipaddress
-git+git://github.com/beenum22/zizou.git#egg=zizou
+pathvalidate
+
+pip
+setuptools

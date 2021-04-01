@@ -25,8 +25,9 @@ def get_requirements():
 
 pkgs, links = get_requirements()
 
-setup(name='sicuro',
-	version='3.0',
+setup(
+    name='sicuro',
+	version='0.1.0',
 	description='Secure your shit',
 	long_description=readme(),
 	url='http://github.com/beenum22/sicuro',
@@ -38,6 +39,8 @@ setup(name='sicuro',
 	packages=setuptools.find_packages(),
     package_data= {
         "sicuro": [
+            "LICENSE",
+            "pyproject.toml",
             "MANIFEST.in",
             "README.rst",
             "requirements.txt",
