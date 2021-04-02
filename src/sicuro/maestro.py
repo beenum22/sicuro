@@ -164,10 +164,10 @@ class Maestro(object):
         print(f"{Fore.LIGHTYELLOW_EX}WARNING: {Fore.YELLOW}Please save this key at a secure location as it will be needed for decryption{Style.RESET_ALL}")
         print(f"{Fore.LIGHTCYAN_EX}Key: {Fore.LIGHTWHITE_EX}%s{Style.RESET_ALL}" % str(self.get_key(), 'utf-8'))
 
-    def display_data(self, data):
+    def display_data(self, data, truncation_size=5120):
         # print("\n")
-        if len(data) > 1024*5:
-            print(f"{Fore.LIGHTYELLOW_EX}WARNING: {Fore.YELLOW}Data length is greater than '1024' characters. Data output display will be truncated to '1024' characters. Make sure to add --save flag to persist data in a file.{Style.RESET_ALL}")
-            print(f"{Fore.LIGHTCYAN_EX}Data: {Fore.LIGHTWHITE_EX}%s (Truncated){Style.RESET_ALL}" % str(data, 'utf-8')[:1024*5])
+        if len(data) > truncation_size:
+            print(f"{Fore.LIGHTYELLOW_EX}WARNING: {Fore.YELLOW}Data length is greater than '%d' characters. Data output display will be truncated to '%d' characters. Make sure to add --save flag to persist data in a file.{Style.RESET_ALL}" % (truncation_size, truncation_size))
+            print(f"{Fore.LIGHTCYAN_EX}Data: {Fore.LIGHTWHITE_EX}%s (Truncated){Style.RESET_ALL}" % str(data, 'utf-8')[:truncation_size])
         else:
             print(f"{Fore.LIGHTCYAN_EX}Data: {Fore.LIGHTWHITE_EX}%s{Style.RESET_ALL}" % str(data, 'utf-8'))
