@@ -1,4 +1,6 @@
 PyCryptodome
+colorama
+coloredlogs
 
 pip
 setuptools

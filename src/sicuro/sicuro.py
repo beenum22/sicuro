@@ -5,37 +5,38 @@ __version__ = '0.1.0'
 
 import argparse
 import sys
-from maestro import Maestro
+from .maestro import Maestro
 import logging.config
+from colorama import Fore, Style
+import coloredlogs
 
 
 def banner():
-    print("""
+    print(f"""{Fore.LIGHTMAGENTA_EX}
  _____  _                           
 /  ___|(_)                          
 \ `--.  _   ___  _   _  _ __   ___  
  `--. \| | / __|| | | || '__| / _ \ 
 /\__/ /| || (__ | |_| || |   | (_) |
 \____/ |_| \___| \__,_||_|    \___/ 
-
+{Style.RESET_ALL}
+{Fore.LIGHTWHITE_EX}
 Sicuro is a simple tool to secure your sensitive data using the Advanced Encryption Standard (AES) ciphering
 technique.
 
 Copyright 2021 Muneeb Ahmad
-""")
+{Style.RESET_ALL}""")
 
 def main():
-    formatter = "%(asctime)s %(name)s - %(levelname)s - %(message)s"
+    # formatter = "%(asctime)s %(name)s - %(levelname)s - %(message)s"
     maestro_logger = logging.getLogger()
-    logging.basicConfig(format=formatter)
+    coloredlogs.install(fmt="%(asctime)s %(name)s - %(levelname)s - %(message)s", level='DEBUG')
     banner()
     try:
         usage = ('python %prog <add variables here>')
-        #workDir = os.path.dirname(os.path.realpath(__file__))
-        #bL = 32
         parser = argparse.ArgumentParser(
             prog="sicuro",
-            description="Secure/unlock your sensitive data using Sicuro.")
+            description="Lock/unlock your sensitive data using Sicuro.")
         parser.add_argument(
             "--version",
             action="version",
@@ -92,11 +93,9 @@ def main():
             e_data = maestro.lock_data(data_path=args.target, store=args.save)
             maestro.display_key()
             maestro.display_data(e_data)
-            # maestro.display_output(key=key, data=e_data, )
         elif args.decrypt:
             d_data = maestro.unlock_data(data_path=args.target, store=args.save)
             maestro.display_data(d_data)
-            # maestro.display_output(data=d_data)
     except Exception as err:
         maestro_logger.error("Something went wrong!. Exception(%s). Exiting..." % err)
     except KeyboardInterrupt:

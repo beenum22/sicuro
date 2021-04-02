@@ -50,6 +50,8 @@ setup(
     #         "sicuro/src/*"
     #     ]},
 	install_requires=[
-            "PyCryptodome"
+            "PyCryptodome",
+            "colorama",
+            "coloredlogs"
         ],
 	zip_safe=False)

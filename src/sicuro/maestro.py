@@ -1,8 +1,9 @@
-from nazgul import Nazgul
+from .nazgul import Nazgul
 import os
 import base64
 import binascii
 import logging
+from colorama import Fore, Style
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ class Maestro(object):
             raise
 
     def _is_file_type_data_source(self, data_source):
-        if os.path.exists(os.path.expanduser(data_source)):
+        if data_source and os.path.exists(os.path.expanduser(data_source)):
             logger.info("Target data source '%s' is a file path", data_source)
             return True
         return False
@@ -118,7 +119,7 @@ class Maestro(object):
 
     def generate_key(self, overwrite=False):
         if self.key:
-            logger.warning("Encryption key already exists")
+            logger.warning("Encryptionadd key already exists")
             if not overwrite:
                 logger.warning("Overwriting encryption key disabled")
                 return False
@@ -160,8 +161,13 @@ class Maestro(object):
         return base64.b64encode(self.key)
 
     def display_key(self):
-        print("WARNING: Please save this key at a secure location as it will be needed for decryption")
-        print("Key: %s" % str(self.get_key(), 'utf-8'))
+        print(f"{Fore.LIGHTYELLOW_EX}WARNING: {Fore.YELLOW}Please save this key at a secure location as it will be needed for decryption{Style.RESET_ALL}")
+        print(f"{Fore.LIGHTCYAN_EX}Key: {Fore.LIGHTWHITE_EX}%s{Style.RESET_ALL}" % str(self.get_key(), 'utf-8'))
 
     def display_data(self, data):
-        print("Data: %s" % str(data, 'utf-8'))
+        # print("\n")
+        if len(data) > 1024*5:
+            print(f"{Fore.LIGHTYELLOW_EX}WARNING: {Fore.YELLOW}Data length is greater than '1024' characters. Data output display will be truncated to '1024' characters. Make sure to add --save flag to persist data in a file.{Style.RESET_ALL}")
+            print(f"{Fore.LIGHTCYAN_EX}Data: {Fore.LIGHTWHITE_EX}%s (Truncated){Style.RESET_ALL}" % str(data, 'utf-8')[:1024*5])
+        else:
+            print(f"{Fore.LIGHTCYAN_EX}Data: {Fore.LIGHTWHITE_EX}%s{Style.RESET_ALL}" % str(data, 'utf-8'))
