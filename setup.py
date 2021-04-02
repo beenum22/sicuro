@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def readme():
     with open('README.rst') as f:
@@ -28,29 +28,28 @@ pkgs, links = get_requirements()
 setup(
     name='sicuro',
 	version='0.1.0',
-	description='Secure your shit',
+    license='LICENSE',
+	description='Sicuro is a simple tool to secure your sensitive data using the Advanced Encryption Standard (AES) ciphering technique.',
 	long_description=readme(),
 	url='http://github.com/beenum22/sicuro',
 	author='Muneeb Ahmad',
 	author_email='muneeb.gandapur@gmail.com',
 	entry_points = {
-		'console_scripts': ['sicuro=sicuro.main:main']
+		'console_scripts': ['sicuro=sicuro.sicuro:main']
 	},
-	packages=setuptools.find_packages(),
-    package_data= {
-        "sicuro": [
-            "LICENSE",
-            "pyproject.toml",
-            "MANIFEST.in",
-            "README.rst",
-            "requirements.txt",
-            "sicuro/main.py",
-            "sicuro/src/*"
-        ]},
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
+    python_requires=">=3.6",
+    # package_data= {
+    #     "sicuro": [
+    #         "LICENSE",
+    #         "pyproject.toml",
+    #         "MANIFEST.in",
+    #         "README.rst",
+    #         "requirements.txt",
+    #         "sicuro/src/*"
+    #     ]},
 	install_requires=[
-                'pycrypto',
-                'ipaddress',
-                'zizou'
+            "PyCryptodome"
         ],
 	zip_safe=False)
-

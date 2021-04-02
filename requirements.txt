@@ -1,6 +1,4 @@
 PyCryptodome
-ipaddress
-pathvalidate
 
 pip
 setuptools
